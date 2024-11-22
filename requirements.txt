@@ -2,3 +2,4 @@ datasets
 matplotlib
 notebook
 regex
+spacy
