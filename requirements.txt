@@ -1,5 +1,12 @@
 datasets
 matplotlib
 notebook
+protobuf
 regex
+sacremoses
+sentencepiece
 spacy
+torch
+torchaudio
+torchvision
+transformers
