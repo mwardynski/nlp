@@ -1,11 +1,15 @@
+accelerate>=0.26.0
 datasets
+evaluate
 matplotlib
 notebook
 protobuf
 regex
 sacremoses
 sentencepiece
+scikit-learn
 spacy
+tensorboard
 torch
 torchaudio
 torchvision
