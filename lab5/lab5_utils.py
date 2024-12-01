@@ -156,28 +156,24 @@ relevant_docs = []
 
 def calculate_dcg(docs, docs_scoring):
     sum = 0
-    relevant_doc_id = None
     for i, doc_id in enumerate(docs):
         if doc_id in docs_scoring.keys():
             sum += (2**docs_scoring[doc_id]-1)/(math.log2(i+1+1))
-            if i == relevant_doc_number:
-                relevant_doc_id = doc_id
-    return sum, relevant_doc_id
+    return sum
 
-def calculate_ndcgs(queries_dict, query_to_corpus_dict, index_url, search_field, size):
+def calculate_ndcgs(queries_dict, query_to_corpus_dict, index_url, search_field, fts_size, ndcgs_size, rerank_fun):
     
     ndcgs = []
 
     for q_id, q_text in queries_dict.items():
-        ideal_search = list(query_to_corpus_dict[q_id].keys())[:size]
-        idcg, _ = calculate_dcg(ideal_search, query_to_corpus_dict[q_id])
+        ideal_search = list(query_to_corpus_dict[q_id].keys())[:ndcgs_size]
+        idcg = calculate_dcg(ideal_search, query_to_corpus_dict[q_id])
 
-        real_search_with_scores = find_for_phrase_with_exclusion(index_url, q_text, search_field, size, [])
-        dcg, relevant_doc_id = calculate_dcg(real_search_with_scores.keys(), query_to_corpus_dict[q_id])
+        real_search_with_scores = find_for_phrase_with_exclusion(index_url, q_text, search_field, fts_size, [])
+        reranked_search_with_scores = rerank_fun(real_search_with_scores)
+        
+        dcg = calculate_dcg(list(reranked_search_with_scores.keys())[:ndcgs_size], query_to_corpus_dict[q_id])
 
         ndcgs.append(dcg/idcg)
-
-        if relevant_doc_id:
-            relevant_docs.append((relevant_doc_id, real_search_with_scores[relevant_doc_id], real_search_with_scores.values(), q_text))
 
     return ndcgs
