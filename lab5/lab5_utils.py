@@ -170,7 +170,7 @@ def calculate_ndcgs(queries_dict, query_to_corpus_dict, index_url, search_field,
         idcg = calculate_dcg(ideal_search, query_to_corpus_dict[q_id])
 
         real_search_with_scores = find_for_phrase_with_exclusion(index_url, q_text, search_field, fts_size, [])
-        reranked_search_with_scores = rerank_fun(real_search_with_scores)
+        reranked_search_with_scores = rerank_fun(q_text, real_search_with_scores)
         
         dcg = calculate_dcg(list(reranked_search_with_scores.keys())[:ndcgs_size], query_to_corpus_dict[q_id])
 
