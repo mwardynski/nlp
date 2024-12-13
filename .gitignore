@@ -4,3 +4,4 @@ lab1/corpus.jsonl
 lab2/*.jsonl
 lab3/*.jsonl
 lab3/morfeusz
+lab7/ollama_cache
