@@ -2,11 +2,14 @@ accelerate>=0.26.0
 datasets
 diskcache
 evaluate
+farm-haystack
 matplotlib
 notebook
 protobuf
 regex
+qdrant-haystack
 sacremoses
+sentence-transformers
 sentencepiece
 scikit-learn
 spacy
@@ -15,3 +18,4 @@ torch
 torchaudio
 torchvision
 transformers
+
