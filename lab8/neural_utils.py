@@ -71,5 +71,34 @@ def calculate_ndcgs(queries_dict, query_to_corpus_dict, query_pipeline, query_fu
 
         ndcgs.append(dcg/idcg)
 
-
     return ndcgs
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+def present_results(ndcgs):
+
+    zeros = []
+    non_zeros = []
+
+    for ndcg in ndcgs:
+        if ndcg == 0:
+            zeros.append(ndcg)
+        else:
+            non_zeros.append(ndcg)
+
+    labels = ['>0 Results', '0 Results']
+    sizes = [len(non_zeros), len(zeros)]
+
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%')
+    plt.title('NDCG@5 Results Proportion: 0 to >0')
+    plt.show()
+
+    plt.hist(non_zeros, bins=10, edgecolor='black')
+    plt.title("Histogram of Non-Zero NDCG@5")
+    plt.xlabel("Score")
+    plt.ylabel("Number of Documents")
+    plt.show()
+
+    print(f"NDCG@5 Mean: {np.mean(ndcgs)} and Std: {np.std(ndcgs)}")
+    print(f"NDCG@5 > 0 Mean: {np.mean(non_zeros)} and Std: {np.std(non_zeros)}")
